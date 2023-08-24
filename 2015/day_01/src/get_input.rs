@@ -18,8 +18,11 @@ pub async fn get_input() -> String {
 
     let url = format!("https://adventofcode.com/{}/day/{}/input", year, day);
     let client = reqwest::Client::new();
-    client.request()
-    let input = reqwest::get(url).await.expect("").text().await.expect("could not get the input");
+    let input = reqwest::get(&url).await.expect("").text().await.expect("could not get the input");
+    let inp2 = client.get(url);
+    // https://docs.rs/reqwest/latest/reqwest/
+    // need to add username and password to inp2 as send params
     println!("{}", input);
+    println!("{:?}", inp2);
     return String::new()
 }
