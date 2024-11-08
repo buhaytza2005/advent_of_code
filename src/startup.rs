@@ -53,13 +53,14 @@ pub async fn get_content(year: &u32, day: &u32) -> anyhow::Result<String> {
     let client = reqwest::Client::builder()
         .default_headers(headers)
         .build()?;
-    let input = client
-        .get(&url)
-        .send()
-        .await
-        .expect("")
-        .text()
-        .await
-        .expect("could not get the input");
+    let response = client.get(&url).send().await.expect("");
+    let session = response
+        .headers()
+        .get(COOKIE)
+        .expect("should have a different sessionn");
+    fs::write("token.cache", session).expect("should save token");
+
+    let input = response.text().await.expect("could not get the input");
+
     return Ok(input);
 }
