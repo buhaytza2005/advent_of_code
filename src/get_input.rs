@@ -1,11 +1,7 @@
 use reqwest;
 use std::env;
-use std::path::Path;
-use str;
 // build the link to get the input
-//
-//
-//
+
 pub async fn get_input() -> String {
     let path = env::current_dir().expect("yes").display().to_string();
     let pieces = path.split("/").collect::<Vec<_>>();
