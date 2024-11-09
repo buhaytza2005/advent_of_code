@@ -3,7 +3,7 @@ use advent_of_code::startup::App;
 #[tokio::main]
 async fn main() {
     let app = App::new();
-    let a = app
+    let _a = app
         .get_input(
             app.years
                 .last()
@@ -16,5 +16,5 @@ async fn main() {
         )
         .await;
 
-    println!("{}", a);
+    app.run_last().await.expect("");
 }

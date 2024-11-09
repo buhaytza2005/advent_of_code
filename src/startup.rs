@@ -2,6 +2,13 @@ use std::fs::{self, File};
 
 use reqwest::header::{HeaderMap, HeaderValue, COOKIE};
 
+use crate::year_2015;
+
+pub enum Day {
+    One = 1,
+    Two = 2,
+}
+
 pub struct App {
     pub years: Vec<u32>,
     pub days: Vec<u32>,
@@ -14,9 +21,20 @@ impl App {
             years: vec![2015],
         }
     }
-    pub fn run() -> anyhow::Result<()> {
+    pub async fn run_last(&self) -> anyhow::Result<()> {
+        let day = self.days.last().unwrap();
+        match day {
+            1 => year_2015::day_1::process_input(
+                get_content(&self.years.last().unwrap(), &self.days.last().unwrap())
+                    .await
+                    .expect("should have input"),
+            )
+            .expect("should process"),
+            _ => (),
+        }
         Ok(())
     }
+
     pub async fn get_input(&self, year: &u32, day: &u32) -> String {
         // check if the file already exists locally
         let mut current_path = std::env::current_dir().expect("Should get the current directory");
@@ -54,11 +72,6 @@ pub async fn get_content(year: &u32, day: &u32) -> anyhow::Result<String> {
         .default_headers(headers)
         .build()?;
     let response = client.get(&url).send().await.expect("");
-    let session = response
-        .headers()
-        .get(COOKIE)
-        .expect("should have a different sessionn");
-    fs::write("token.cache", session).expect("should save token");
 
     let input = response.text().await.expect("could not get the input");
 
