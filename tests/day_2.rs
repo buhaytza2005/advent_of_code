@@ -27,5 +27,15 @@ fn surface_is_calculated_right() {
     };
     //act
     let surface = d.calculate_surface();
-    assert_eq!(surface, 58)
+    assert_eq!(surface, 58);
+
+    //act2
+    let perimeter = d.get_smallest_perimeter();
+    assert_eq!(perimeter, 10);
+    let bow = d.get_bow();
+
+    assert_eq!(bow, 24);
+    let ribbon = d.get_ribbon_requirement();
+    println!("{} {} ", perimeter, bow);
+    assert_eq!(ribbon, 34);
 }

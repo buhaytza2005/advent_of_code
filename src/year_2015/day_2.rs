@@ -15,6 +15,7 @@ impl Dimensions {
             .map(|s| s.trim().to_string())
             .filter(|s| !s.is_empty())
             .collect();
+
         let dimensions: Vec<Dimensions> = lines
             .iter()
             .map(|line| {
@@ -47,6 +48,25 @@ impl Dimensions {
             None => 0,
         }
     }
+
+    pub fn get_smallest_perimeter(&self) -> u32 {
+        let mut areas = vec![self.height, self.width, self.length];
+        let largest = areas.iter().max();
+        if let Some(largest_number) = largest {
+            let pos = areas.iter().position(|x| x == largest_number).unwrap();
+            areas.remove(pos);
+        }
+        areas[0] * 2 + areas[1] * 2
+    }
+
+    pub fn get_bow(&self) -> u32 {
+        self.length * self.height * self.width
+    }
+    pub fn get_ribbon_requirement(&self) -> u32 {
+        let perimeter = self.get_smallest_perimeter();
+        let bow = self.get_bow();
+        perimeter + bow
+    }
 }
 pub fn part_1(input: String) -> anyhow::Result<String> {
     let mut dimensions = Dimensions::from_input(&input);
@@ -59,5 +79,11 @@ pub fn part_1(input: String) -> anyhow::Result<String> {
 }
 
 pub fn part_2(input: String) -> anyhow::Result<String> {
-    Ok("".to_string())
+    let mut dimensions = Dimensions::from_input(&input);
+    let totals: Vec<u32> = dimensions
+        .iter_mut()
+        .map(|d| d.get_ribbon_requirement())
+        .collect();
+    let total = totals.into_iter().reduce(|acc, e| acc + e).unwrap();
+    Ok(total.to_string())
 }

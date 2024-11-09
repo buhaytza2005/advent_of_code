@@ -41,8 +41,8 @@ impl App {
                     .expect("should have input");
                 let p1 = year_2015::day_2::part_1(input.clone()).expect("should process");
                 println!("part 1: {}", p1);
-                //let p2 = year_2015::day_2::part_2(input).expect("should process");
-                //println!("part 2: {}", p2);
+                let p2 = year_2015::day_2::part_2(input).expect("should process");
+                println!("part 2: {}", p2);
                 "".to_string()
             }
             _ => "".to_string(),
