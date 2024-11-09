@@ -24,14 +24,18 @@ impl App {
     pub async fn run_last(&self) -> anyhow::Result<()> {
         let day = self.days.last().unwrap();
         match day {
-            1 => year_2015::day_1::process_input(
-                get_content(&self.years.last().unwrap(), &self.days.last().unwrap())
+            1 => {
+                let input = get_content(&self.years.last().unwrap(), &self.days.last().unwrap())
                     .await
-                    .expect("should have input"),
-            )
-            .expect("should process"),
-            _ => (),
-        }
+                    .expect("should have input");
+                let p1 = year_2015::day_1::part_1(input.clone()).expect("should process");
+                let p2 = year_2015::day_1::part_2(input).expect("should process");
+                println!("part 1: {}", p1);
+                println!("part 2: {}", p2);
+                "".to_string()
+            }
+            _ => "".to_string(),
+        };
         Ok(())
     }
 
