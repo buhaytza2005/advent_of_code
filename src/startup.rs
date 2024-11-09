@@ -17,7 +17,7 @@ pub struct App {
 impl App {
     pub fn new() -> Self {
         App {
-            days: vec![1],
+            days: vec![1, 2],
             years: vec![2015],
         }
     }
@@ -32,6 +32,17 @@ impl App {
                 let p2 = year_2015::day_1::part_2(input).expect("should process");
                 println!("part 1: {}", p1);
                 println!("part 2: {}", p2);
+                "".to_string()
+            }
+
+            2 => {
+                let input = get_content(&self.years.last().unwrap(), &self.days.last().unwrap())
+                    .await
+                    .expect("should have input");
+                let p1 = year_2015::day_2::part_1(input.clone()).expect("should process");
+                println!("part 1: {}", p1);
+                //let p2 = year_2015::day_2::part_2(input).expect("should process");
+                //println!("part 2: {}", p2);
                 "".to_string()
             }
             _ => "".to_string(),
