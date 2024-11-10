@@ -1,5 +1,6 @@
 pub fn part_1(input: String) -> anyhow::Result<String> {
     let mut floor = 0;
+
     for c in input.split("").collect::<Vec<_>>().iter() {
         let movement = match *c {
             "(" => 1,
