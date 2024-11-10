@@ -43,24 +43,26 @@ impl House {
         //split characters for santa and robo
         for (pos, c) in moves.iter().enumerate() {
             if pos % 2 != 0 {
-                println!("{:#?}", h);
-                robo_houses.insert(h.clone());
+                match c {
+                    '>' => santa_house.x += 1,
+                    '<' => santa_house.x -= 1,
+                    '^' => santa_house.y += 1,
+                    'v' => santa_house.y -= 1,
+                    _ => {}
+                };
+
+                santa_houses.insert(santa_house.clone());
             } else {
-                santa_houses.insert(h.clone());
+                match c {
+                    '>' => robo_house.x += 1,
+                    '<' => robo_house.x -= 1,
+                    '^' => robo_house.y += 1,
+                    'v' => robo_house.y -= 1,
+                    _ => {}
+                };
+                robo_houses.insert(robo_house.clone());
             }
-
-            match c {
-                '>' => h.x += 1,
-                '<' => h.x -= 1,
-                '^' => h.y += 1,
-                'v' => h.y -= 1,
-                _ => {}
-            };
         }
-        println!("houses has {:#?}", houses);
-        println!("robo has {:#?}", robo_houses);
-        println!("santa has {:#?}", santa_houses);
-
         houses.extend(robo_houses);
         houses.extend(santa_houses);
         houses

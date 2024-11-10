@@ -34,4 +34,15 @@ fn robo_santa_tests_should_pass() {
     let houses = House::santa_and_robot_move_in_direction(input);
 
     assert_eq!(houses.len(), 3);
+
+    let input = "^>v<";
+
+    let houses = House::santa_and_robot_move_in_direction(input);
+
+    assert_eq!(houses.len(), 3);
+    let input = "^v^v^v^v^v";
+
+    let houses = House::santa_and_robot_move_in_direction(input);
+
+    assert_eq!(houses.len(), 11);
 }
