@@ -7,6 +7,7 @@ use crate::year_2015;
 pub enum Day {
     One = 1,
     Two = 2,
+    Three = 3,
 }
 
 pub struct App {
@@ -17,7 +18,7 @@ pub struct App {
 impl App {
     pub fn new() -> Self {
         App {
-            days: vec![1, 2],
+            days: vec![1, 2, 3],
             years: vec![2015],
         }
     }
@@ -43,6 +44,18 @@ impl App {
                 println!("part 1: {}", p1);
                 let p2 = year_2015::day_2::part_2(input).expect("should process");
                 println!("part 2: {}", p2);
+                "".to_string()
+            }
+            3 => {
+                let input = get_content(&self.years.last().unwrap(), &self.days.last().unwrap())
+                    .await
+                    .expect("should have input");
+                let p1 = year_2015::day_3::part_1(input.clone()).expect("should process");
+                println!("part 1: {}", p1);
+
+                let p2 = year_2015::day_3::part_2(input).expect("should process");
+                println!("part 2: {}", p2);
+
                 "".to_string()
             }
             _ => "".to_string(),
