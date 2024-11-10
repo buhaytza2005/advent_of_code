@@ -37,7 +37,6 @@ impl House {
         let mut santa_houses = HashSet::new();
         let mut robo_houses = HashSet::new();
 
-        let mut h = House::default();
         let mut santa_house = House::default();
         let mut robo_house = House::default();
         //split characters for santa and robo

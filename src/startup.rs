@@ -8,6 +8,7 @@ pub enum Day {
     One = 1,
     Two = 2,
     Three = 3,
+    Four = 4,
 }
 
 pub struct App {
@@ -18,7 +19,7 @@ pub struct App {
 impl App {
     pub fn new() -> Self {
         App {
-            days: vec![1, 2, 3],
+            days: vec![1, 2, 3, 4],
             years: vec![2015],
         }
     }
@@ -54,6 +55,15 @@ impl App {
                 println!("part 1: {}", p1);
 
                 let p2 = year_2015::day_3::part_2(input).expect("should process");
+                println!("part 2: {}", p2);
+
+                "".to_string()
+            }
+            4 => {
+                let p1 = year_2015::day_4::part_1("bgvyzdsv").expect("should process");
+                println!("part 1: {}", p1);
+
+                let p2 = year_2015::day_4::part_2("bgvyzdsv").expect("should process");
                 println!("part 2: {}", p2);
 
                 "".to_string()

@@ -1,5 +1,3 @@
-use std::collections::HashSet;
-
 use advent_of_code::year_2015::day_3::House;
 
 #[test]
