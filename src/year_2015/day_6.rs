@@ -10,20 +10,25 @@ pub struct Point {
 pub struct Grid {
     pub actions: Vec<Action>,
     pub grid: Vec<Vec<bool>>,
+    pub brightness_grid: Vec<Vec<u32>>,
 }
 
 impl Grid {
     pub fn new() -> Self {
         let mut grid: Vec<Vec<bool>> = Vec::new();
+        let mut brightness_grid: Vec<Vec<u32>> = Vec::new();
         for i in 0..1000 {
             grid.push(vec![]);
+            brightness_grid.push(vec![]);
             for j in 0..1000 {
                 grid[i].push(false);
+                brightness_grid[i].push(0);
             }
         }
         Grid {
             actions: Vec::new(),
             grid,
+            brightness_grid,
         }
     }
     pub fn get_actions(&mut self, input: impl Into<String>) -> &mut Self {
@@ -33,6 +38,7 @@ impl Grid {
             .into_iter()
             .filter_map(|s| Action::from_str(s).ok())
             .collect::<Vec<_>>();
+        println!("There are {} actions", total.len());
         self.actions = total;
         self
     }
@@ -53,6 +59,7 @@ impl Grid {
                         }
                     }
                 }
+
                 Action::Toggle(p1, p2) => {
                     for x in p1.x..p2.x + 1 {
                         for y in p1.y..p2.y + 1 {
@@ -74,41 +81,38 @@ impl Grid {
         count
     }
     pub fn get_brightness(&mut self) -> usize {
-        let mut brightness = 0;
         for action in self.actions.as_slice() {
             match action {
                 Action::On(p1, p2) => {
-                    for x in p1.x..p2.x + 1 {
-                        for y in p1.y..p2.y + 1 {
-                            self.grid[x as usize][y as usize] = true;
-                            brightness += 1;
+                    for x in p1.x..=p2.x {
+                        for y in p1.y..=p2.y {
+                            self.brightness_grid[x as usize][y as usize] += 1;
                         }
                     }
                 }
                 Action::Off(p1, p2) => {
-                    for x in p1.x..p2.x + 1 {
-                        for y in p1.y..p2.y + 1 {
-                            self.grid[x as usize][y as usize] = false;
-                            if brightness != 0 {
-                                brightness -= 1;
-                            } else {
-                                brightness += 0;
-                            }
+                    for x in p1.x..=p2.x {
+                        for y in p1.y..=p2.y {
+                            self.brightness_grid[x as usize][y as usize] =
+                                self.brightness_grid[x as usize][y as usize].saturating_sub(1);
                         }
                     }
                 }
                 Action::Toggle(p1, p2) => {
-                    for x in p1.x..p2.x + 1 {
-                        for y in p1.y..p2.y + 1 {
-                            self.grid[x as usize][y as usize] = !self.grid[x as usize][y as usize];
-                            brightness += 2;
+                    for x in p1.x..=p2.x {
+                        for y in p1.y..=p2.y {
+                            self.brightness_grid[x as usize][y as usize] += 2;
                         }
                     }
                 }
             }
         }
 
-        brightness
+        let total = self
+            .brightness_grid
+            .iter()
+            .fold(0, |a, b| a + b.iter().sum::<u32>());
+        total as usize
     }
 }
 
