@@ -73,6 +73,43 @@ impl Grid {
         }
         count
     }
+    pub fn get_brightness(&mut self) -> usize {
+        let mut brightness = 0;
+        for action in self.actions.as_slice() {
+            match action {
+                Action::On(p1, p2) => {
+                    for x in p1.x..p2.x + 1 {
+                        for y in p1.y..p2.y + 1 {
+                            self.grid[x as usize][y as usize] = true;
+                            brightness += 1;
+                        }
+                    }
+                }
+                Action::Off(p1, p2) => {
+                    for x in p1.x..p2.x + 1 {
+                        for y in p1.y..p2.y + 1 {
+                            self.grid[x as usize][y as usize] = false;
+                            if brightness != 0 {
+                                brightness -= 1;
+                            } else {
+                                brightness += 0;
+                            }
+                        }
+                    }
+                }
+                Action::Toggle(p1, p2) => {
+                    for x in p1.x..p2.x + 1 {
+                        for y in p1.y..p2.y + 1 {
+                            self.grid[x as usize][y as usize] = !self.grid[x as usize][y as usize];
+                            brightness += 2;
+                        }
+                    }
+                }
+            }
+        }
+
+        brightness
+    }
 }
 
 #[derive(Debug, Eq, PartialEq)]
@@ -135,5 +172,12 @@ pub fn part_1(input: &str) -> anyhow::Result<String> {
     println!("Lenght 1: {}", grid.grid.len());
     println!("Lenght 2: {}", grid.grid[0].len());
     println!("Lenght 2: {}", grid.grid[0][999]);
+    Ok(lit.to_string())
+}
+pub fn part_2(input: &str) -> anyhow::Result<String> {
+    let mut grid = Grid::new();
+    grid.get_actions(input);
+
+    let lit = grid.get_brightness();
     Ok(lit.to_string())
 }
